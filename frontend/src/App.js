@@ -6,18 +6,18 @@ import {
 } from "react-router-dom"
 
 import Landing from "./pages/Landing"
+import Proposal from "./pages/Proposal"
 import Navbar from "./components/Navbar"
-import GasTracker from "./pages/GasTracker"
 import Proposals from "./pages/Proposals"
+import GasTracker from "./pages/GasTracker"
 import DelegateVote from "./pages/DelegateVote"
 import CreateProposal from "./pages/CreateProposal"
-import Proposal from "./pages/Proposal"
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <div className="w-full h-screen">
+      <div>
         <Switch>
           <Route exact path="/" component={withRouter(Landing)} />
           <Route exact path="/gas-tracker" component={withRouter(GasTracker)} />

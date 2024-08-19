@@ -13,7 +13,7 @@ import proposalVoteDurEnum from "../enum/proposal.vote.dur.enum"
 function CreateProposal(props) {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
-  const [duration, setDuration] = useState("")
+  const [duration, setDuration] = useState(1)
   const [createButtonMessage, setCreateButtonMessage] =
     useState("Create Proposal")
   const [isProposalCreated, setIsProposalCreated] = useState(false)

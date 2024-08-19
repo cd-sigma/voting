@@ -17,7 +17,7 @@ function Landing(props) {
 
   const connectWallet = async () => {
     if (!isWindowProviderAvailable()) {
-      alert("Please install Metamask to continue")
+      alert("You need to install metamask to use this app.")
     }
 
     const accounts = await window.ethereum.request({
@@ -53,7 +53,7 @@ function Landing(props) {
   useEffect(() => {
     const checkWallet = async () => {
       if (!isWindowProviderAvailable()) {
-        alert("Please install Metamask to continue")
+        alert("You need to install metamask to use this app.")
       }
 
       if (await isWindowProviderAccountsAvailable()) {

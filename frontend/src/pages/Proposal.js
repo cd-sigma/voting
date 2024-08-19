@@ -261,7 +261,7 @@ function Proposal(props) {
               <div className="mt-20 mb-10 space-x-10">
                 <button
                   onClick={handleUpVote}
-                  disbaled={action.isOnGoing}
+                  disabled={action.isOnGoing}
                   className={`bg-white hover:bg-gray-500 text-black font-bold py-2 px-4`}
                 >
                   {action.type === proposalActionEnum.UP_VOTE &&

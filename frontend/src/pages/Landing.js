@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 
 import {
   getWeb3,
+  getWindowProviderChainId,
   getWindowProviderAccount,
   isWindowProviderAvailable,
   isWindowProviderAccountsAvailable,
@@ -18,6 +19,10 @@ function Landing(props) {
   const connectWallet = async () => {
     if (!isWindowProviderAvailable()) {
       alert("You need to install metamask to use this app.")
+    }
+
+    if ((await getWindowProviderChainId()) !== globalConst.HOLESKY_CHAIN_ID) {
+      alert("Please switch to Holesky network")
     }
 
     const accounts = await window.ethereum.request({
@@ -54,6 +59,10 @@ function Landing(props) {
     const checkWallet = async () => {
       if (!isWindowProviderAvailable()) {
         alert("You need to install metamask to use this app.")
+      }
+
+      if ((await getWindowProviderChainId()) !== globalConst.HOLESKY_CHAIN_ID) {
+        alert("Please switch to Holesky network")
       }
 
       if (await isWindowProviderAccountsAvailable()) {

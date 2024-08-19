@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react"
 
-import Proposal from "../components/Proposal"
 import Loader from "../components/Loader"
+import Proposal from "../components/Proposal"
 
-import { getWindowProvider, isWindowProviderAvailable } from "../util/web3.util"
 import { isTimeInPast } from "../util/date.util"
 import { getAllProposals } from "../util/voting.util"
+import {
+  isWindowProviderAvailable,
+  getWindowProviderAccount,
+} from "../util/web3.util"
 
 import proposalFilterEnum from "../enum/proposal.filter.enum.js"
 
@@ -32,15 +35,8 @@ function Proposals(props) {
 
     const checkWallet = async () => {
       if (isWindowProviderAvailable()) {
-        const provider = await getWindowProvider()
-
-        let accounts = await provider.listAccounts()
-        if (accounts.length === 0) {
-          accounts = await window.ethereum.request({
-            method: "eth_requestAccounts",
-          })
-        }
-        setAccount(accounts[0])
+        const account = await getWindowProviderAccount()
+        setAccount(account)
       } else {
         alert("Please install Metamask to continue")
       }

@@ -217,20 +217,20 @@ function Proposal(props) {
           <p className="text-2xl text-gray-700 mb-4">{proposal.description}</p>
           <div className="text-xl">Upvotes: {proposal.noOfUpVotes}</div>
           <div className="text-xl">Downvotes: {proposal.noOfDownVotes}</div>
-          <div className="text-xl">
-            Time Left: {getTimeRemaining(proposal.endTime)}
-          </div>
+
+          {!proposal.isExpired && (
+            <div className="text-xl text-blue-600">{`Voting Ends In: ${getTimeRemaining(proposal.endTime)}`}</div>
+          )}
 
           {proposal.isExpired && (
             <div className="text-xl mt-5">
-              {proposal.noOfUpVotes.toNumber() >
-              proposal.noOfDownVotes.toNumber()
+              {proposal.noOfUpVotes > proposal.noOfDownVotes
                 ? "Proposal Passed ✅"
                 : "Proposal Rejected ❌"}
             </div>
           )}
 
-          {user.hasVoted && (
+          {user.hasVoted && !proposal.isExpired && (
             <div className="text-xl mt-5 text-red-600">
               You have already voted on this proposal
             </div>

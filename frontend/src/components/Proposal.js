@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { getTimeRemaining } from "../util/date.util"
+import { getTimeRemaining, isTimeInPast } from "../util/date.util"
 import { hasUserVoted } from "../util/voting.util"
 
 function Proposal(props) {
@@ -27,7 +27,16 @@ function Proposal(props) {
             </span>
           ) : (
             <span className="text-blue-500">
-              Time Remaining: {getTimeRemaining(props.endTime)}
+              {isTimeInPast(props.endTime) ? (
+                <span className="text-red-500">Voting Ended</span>
+              ) : (
+                <>
+                  Voting Ends In{" "}
+                  <span className="text-red-500">
+                    {getTimeRemaining(props.endTime)}
+                  </span>
+                </>
+              )}
             </span>
           )}
         </div>

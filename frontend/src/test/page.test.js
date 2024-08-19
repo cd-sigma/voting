@@ -1,6 +1,7 @@
 import React from "react"
 import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
+import { getWeb3 } from "../util/web3.util"
 
 import Landing from "../pages/Landing"
 import Proposals from "../pages/Proposals"
@@ -46,6 +47,7 @@ describe("checks all the pages renders correctly", () => {
   })
 
   it("renders landing page", () => {
+    window.ethereum = getWeb3()
     render(<Landing />)
     expect(screen.getByText("Connect wallet to continue")).toBeInTheDocument()
     expect(screen.getByText("Connect Wallet")).toBeInTheDocument()

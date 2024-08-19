@@ -19,7 +19,6 @@ function GasTracker(props) {
   const [proposalCreationGas, setProposalCreationGas] = useState(null)
   const [gasLastRefreshedAt, setGasLastRefreshedAt] = useState(null)
 
-  const refreshInterval = 2000
   useEffect(() => {
     const web3 = getWeb3()
     const contract = new ethers.Contract(
@@ -36,7 +35,7 @@ function GasTracker(props) {
           contract.estimateGas["createProposal"](
             "testing",
             "ciphernova is testing",
-            1855292721,
+            1855292721, // 2038-11-01 00:00:00
           ),
           contract.estimateGas["delegateVote"](
             "0x1268AD189526AC0b386faF06eFfC46779c340eE6", //some random address
@@ -52,11 +51,11 @@ function GasTracker(props) {
 
     fetchData()
 
-    const intervalId = setInterval(fetchData, refreshInterval)
+    const intervalId = setInterval(fetchData, 2000)
 
     // cleanup function to clear the interval when the component unmounts
     return () => clearInterval(intervalId)
-  }, [refreshInterval])
+  }, [])
 
   return (
     <div>

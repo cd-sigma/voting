@@ -73,7 +73,7 @@ function GasTracker(props) {
         <GasQuote
           action={"Gas price"}
           gasConsumed={
-            gasPrice ? (gasPrice / 10 ** 9).toFixed(2) + " GWEI" : "Loading..."
+            gasPrice ? (gasPrice / 10 ** 9).toFixed(3) + " GWEI" : "Loading..."
           }
         />
       </div>
@@ -82,7 +82,7 @@ function GasTracker(props) {
           action={"Gas required to create a proposal"}
           gasConsumed={
             proposalCreationGas
-              ? (proposalCreationGas / 10 ** 18).toFixed(6) + " ETH"
+              ? (proposalCreationGas / 10 ** 18).toFixed(7) + " ETH"
               : "Loading ..."
           }
         />
@@ -90,7 +90,7 @@ function GasTracker(props) {
           action={"Gas required to vote"}
           gasConsumed={
             votingGas
-              ? (votingGas / 10 ** 18).toFixed(6) + " ETH"
+              ? (votingGas / 10 ** 18).toFixed(7) + " ETH"
               : "Loading ..."
           }
         />
@@ -98,7 +98,7 @@ function GasTracker(props) {
           action={"Gas required to delegate vote"}
           gasConsumed={
             voteDelegatingGas
-              ? (voteDelegatingGas / 10 ** 18).toFixed(6) + " ETH"
+              ? (voteDelegatingGas / 10 ** 18).toFixed(7) + " ETH"
               : "Loading ..."
           }
         />

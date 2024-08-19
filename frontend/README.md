@@ -57,7 +57,7 @@ Ensure you have the following installed:
 
 ### Video Walkthrough
 
-https://www.loom.com/share/7
+The video is available [here](https://youtu.be/G7C5qBj6RtU)
 
 ### Using the DApp
 
@@ -99,4 +99,10 @@ https://www.loom.com/share/7
 5. Confirm the transaction in MetaMask.
 6. Your vote will be recorded.
 
-   
+### Gas Tracker
+
+You can track the gas cost on the holesky testnet on the gas
+tracker [page](https://voting-olive.vercel.app/gas-tracker). You can also see how much ETH you require to
+upvote/downvote a proposal, create a proposal, delegate your voting power etc.
+
+![img.png](./public/gas.tracker.png)

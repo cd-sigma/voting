@@ -1,7 +1,7 @@
 import { ethers } from "ethers"
 import React, { useEffect, useState } from "react"
 
-import { getWeb3 } from "../web3"
+import { getWeb3 } from "../util/web3.util"
 import {
   getCurrentUnixTimestampInMs,
   convertUnixTimestampToHumanReadableDate,
@@ -32,14 +32,14 @@ function GasTracker(props) {
       const [gasPrice, votingGas, proposalCreationGas, voteDelegatingGas] =
         await Promise.all([
           web3.getGasPrice(),
-          contract.estimateGas["upVote"](1),
+          contract.estimateGas["upVote"](0),
           contract.estimateGas["createProposal"](
             "testing",
             "ciphernova is testing",
             1855292721,
           ),
           contract.estimateGas["delegateVote"](
-            "0x08D433754eC29337b8b8eb10b59dd3e503473225",
+            "0x1268AD189526AC0b386faF06eFfC46779c340eE6", //some random address
           ),
         ])
 
@@ -83,7 +83,7 @@ function GasTracker(props) {
           action={"Gas required to create a proposal"}
           gasConsumed={
             proposalCreationGas
-              ? (proposalCreationGas / 10 ** 18).toFixed(5) + " ETH"
+              ? (proposalCreationGas / 10 ** 18).toFixed(6) + " ETH"
               : "Loading ..."
           }
         />
@@ -91,7 +91,7 @@ function GasTracker(props) {
           action={"Gas required to vote"}
           gasConsumed={
             votingGas
-              ? (votingGas / 10 ** 18).toFixed(5) + " ETH"
+              ? (votingGas / 10 ** 18).toFixed(6) + " ETH"
               : "Loading ..."
           }
         />
@@ -99,7 +99,7 @@ function GasTracker(props) {
           action={"Gas required to delegate vote"}
           gasConsumed={
             voteDelegatingGas
-              ? (voteDelegatingGas / 10 ** 18).toFixed(5) + " ETH"
+              ? (voteDelegatingGas / 10 ** 18).toFixed(6) + " ETH"
               : "Loading ..."
           }
         />

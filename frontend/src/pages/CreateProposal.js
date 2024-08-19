@@ -1,13 +1,55 @@
+import _ from "lodash"
 import React, { useState } from "react"
+
+import {
+  getVotingMasterInstance,
+  getWindowProvider,
+  isWindowProviderAvailable,
+} from "../util/web3.util"
+import { getNDaysFromNowUnixTimestampInSecs } from "../util/date.util"
+
+import proposalVoteDurEnum from "../enum/proposal.vote.dur.enum"
 
 function CreateProposal(props) {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [duration, setDuration] = useState("")
+  const [createButtonMessage, setCreateButtonMessage] =
+    useState("Create Proposal")
+  const [isProposalCreated, setIsProposalCreated] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    //TODO: add code for web3 call here
+
+    if (_.isEmpty(name) || _.isEmpty(description)) {
+      alert("Please fill all the fields.")
+      return
+    }
+
+    if (isWindowProviderAvailable()) {
+      const provider = getWindowProvider()
+      const votingMasterInstance = getVotingMasterInstance(
+        provider.getSigner(0),
+      )
+
+      try {
+        setCreateButtonMessage("Approving Transaction...")
+        const { hash } = await votingMasterInstance.createProposal(
+          name,
+          description,
+          getNDaysFromNowUnixTimestampInSecs(duration),
+        )
+        setCreateButtonMessage("Waiting for Transaction to be Mined...")
+        await provider.waitForTransaction(hash)
+        setCreateButtonMessage("Proposal successfully created ✅")
+        setIsProposalCreated(true)
+      } catch (error) {
+        console.log(error)
+        setCreateButtonMessage("Some error occurred. Please try again.")
+      }
+    } else {
+      alert("Please connect wallet to continue.")
+    }
   }
 
   return (
@@ -54,18 +96,26 @@ function CreateProposal(props) {
           onChange={(e) => setDuration(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded mb-4 text-black"
         >
-          <option value="1">1 Day</option>
-          <option value="2">2 Days</option>
-          <option value="3">3 Days</option>
-          <option value="7">7 Days</option>
+          {Object.keys(proposalVoteDurEnum).map((key) => (
+            <option key={key} value={key}>
+              {proposalVoteDurEnum[key]}
+            </option>
+          ))}
         </select>
         <button
           type="submit"
-          className="w-full bg-black text-white p-2 rounded hover:bg-gray-600 transition duration-300"
+          className="w-full bg-black text-white p-2 rounded hover:bg-gray-600 transition duration-300 mb-5"
         >
-          Create Proposal
+          {createButtonMessage}
         </button>
       </form>
+      {isProposalCreated && (
+        <a href="/proposals">
+          <button className="w-full bg-black text-white p-2 rounded hover:bg-gray-600 transition duration-300">
+            View Proposals
+          </button>
+        </a>
+      )}
     </div>
   )
 }

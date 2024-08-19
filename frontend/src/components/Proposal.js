@@ -1,35 +1,38 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+
+import { getTimeRemaining } from "../util/date.util"
+import { hasUserVoted } from "../util/voting.util"
 
 function Proposal(props) {
+  const [hasVoted, setHasVoted] = useState(false)
+
+  useEffect(() => {
+    const checkAccount = async () => {
+      const hasVoted = await hasUserVoted(props.account, props.id)
+      setHasVoted(hasVoted)
+    }
+
+    checkAccount()
+  }, [props.account, props.id])
+
   return (
-    <div className="m-10 p-4 bg-white rounded-lg border border-gray-500 w-full">
-      <h2 className="text-2xl font-bold text-gray-800 mb-2">{props.name}</h2>
-      <p className="text-gray-700 mb-4">{props.description}</p>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-4">
-          <button
-            className="px-4 py-2 bg-black text-green-700 rounded-lg hover:bg-gray-600"
-            // onClick={handleUpvote}
-          >
-            Upvote
-          </button>
-          <span className="text-black font-semibold">
-            {props.noOfUpVotes} Upvotes
-          </span>
-        </div>
-        <div className="flex items-center space-x-4">
-          <button
-            className="px-4 py-2 bg-black text-red-700 rounded-lg hover:bg-gray-600"
-            // onClick={handleDownvote}
-          >
-            Downvote
-          </button>
-          <span className="text-black font-semibold">
-            {props.noOfDownVotes} Downvotes
-          </span>
+    <a href={`/proposal/${props.id}`} className="m-5">
+      <div className="p-4 bg-white rounded-lg border border-gray-500 w-full">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">{props.name}</h2>
+        <p className="text-gray-700 mb-4">{props.description}</p>
+        <div className="flex justify-between items-center mb-4">
+          {hasVoted ? (
+            <span className="text-green-600">
+              Already Voted <span className="text-green-500">✔</span>
+            </span>
+          ) : (
+            <span className="text-blue-500">
+              Time Remaining: {getTimeRemaining(props.endTime)}
+            </span>
+          )}
         </div>
       </div>
-    </div>
+    </a>
   )
 }
 

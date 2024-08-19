@@ -11,6 +11,7 @@ import GasTracker from "./pages/GasTracker"
 import Proposals from "./pages/Proposals"
 import DelegateVote from "./pages/DelegateVote"
 import CreateProposal from "./pages/CreateProposal"
+import Proposal from "./pages/Proposal"
 
 function App() {
   return (
@@ -30,6 +31,11 @@ function App() {
             exact
             path="/create-proposal"
             component={withRouter(CreateProposal)}
+          />
+          <Route
+            exact
+            path="/proposal/:proposalId"
+            component={withRouter(Proposal)}
           />
         </Switch>
       </div>

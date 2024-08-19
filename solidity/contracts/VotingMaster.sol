@@ -146,6 +146,7 @@ contract VotingMaster {
 
         proposal.noOfUpVotes = proposal.noOfUpVotes.add(voteWeight);
         hasVoted[delegator][_proposalId] = true;
+        hasVoted[msg.sender][_proposalId] = true;
 
         emit UpVotedByDelegate(_proposalId, delegator, msg.sender, voteWeight);
         return true;
@@ -184,6 +185,7 @@ contract VotingMaster {
 
         proposal.noOfDownVotes = proposal.noOfDownVotes.add(voteWeight);
         hasVoted[delegator][_proposalId] = true;
+        hasVoted[msg.sender][_proposalId] = true;
 
         emit DownVotedByDelegate(_proposalId, delegator, msg.sender, voteWeight);
         return true;

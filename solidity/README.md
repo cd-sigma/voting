@@ -44,7 +44,7 @@ addresses:
 1. Sepolia Testnet:
    [0x08d433754ec29337b8b8eb10b59dd3e503473225](https://sepolia.etherscan.io/address/0x08d433754ec29337b8b8eb10b59dd3e503473225)
 2. Holesky Testnet:
-   [0x2bc7ab4794ea6Fd42A749B5c36A8f9FaC7588320](https://holesky.etherscan.io/address/0x2bc7ab4794ea6Fd42A749B5c36A8f9FaC7588320)
+   [0x278ed1E396297562d83Fe620609a93411f56ec6d](https://holesky.etherscan.io/address/0x278ed1E396297562d83Fe620609a93411f56ec6d)
 
 You can deploy the contract using Truffle by following these steps:
 

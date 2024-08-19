@@ -1,6 +1,12 @@
 # Voting Repository
 
-Welcome to the repository! This project is organized into two main directories:
+Welcome to the voting repository! This project is organized into two main directories:
+
+1. `solidity`
+2. `frontend`
+
+Each of these directories has its own purpose and structure, which is detailed in the respective README files of each
+directory.
 
 ## Directory Structure
 

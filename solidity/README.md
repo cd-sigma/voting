@@ -5,6 +5,8 @@
 The `VotingMaster` smart contract is a decentralized voting system on the Ethereum blockchain. It allows users to create
 proposals and vote on them using their Ethereum wallet balance as the weight of their votes.
 
+You can find the code for this contract in the `contracts/VotingMaster.sol` file.
+
 ## Features
 
 - **Proposal Creation:** Anyone can create a proposal by providing a name, description, and end time (a unix timestamp)
@@ -13,6 +15,50 @@ proposals and vote on them using their Ethereum wallet balance as the weight of 
 - **Delegation:** Users can delegate their voting rights to another user, allowing the delegatee to vote on their
   behalf.
 - **Vote Results:** The contract allows users to view the outcome of a proposal once voting has ended.
+
+## Running Tests
+
+To ensure the smart contract functions correctly, you can run the provided tests using Truffle. Make sure you
+have [Truffle](https://www.trufflesuite.com/) installed.
+
+### Steps to Run Tests
+
+1. **Compile the Contracts:**
+   Before running the tests, ensure the smart contracts are compiled.
+
+   ```bash
+   truffle compile
+   ```
+2. **Run the Tests:**
+   Use the following command to run the tests:
+
+   ```bash
+   truffle test
+   ```
+
+### Deployment
+
+The VotingMaster contract is deployed on the sepolia and holesky testnets. The contract is deployed at the following
+addresses:
+
+1. Sepolia Testnet:
+   [0x08d433754ec29337b8b8eb10b59dd3e503473225](https://sepolia.etherscan.io/address/0x08d433754ec29337b8b8eb10b59dd3e503473225)
+2. Holesky Testnet:
+   [0x2bc7ab4794ea6Fd42A749B5c36A8f9FaC7588320](https://holesky.etherscan.io/address/0x2bc7ab4794ea6Fd42A749B5c36A8f9FaC7588320)
+
+You can deploy the contract using Truffle by following these steps:
+
+1. **Update the `truffle-config.js` File:**
+   Update the `truffle-config.js` file with your network configuration.
+2. **Deploy the Contract:**
+   Run the following command to deploy the contract:
+
+   ```bash
+   truffle migrate --network <network-name>
+   ```
+   Replace `<network-name>` with the name of the network you want to deploy the contract to.
+
+The truffle-config file already has the configuration for the holesky testnet.
 
 ## Contract Details
 
@@ -32,12 +78,6 @@ proposals and vote on them using their Ethereum wallet balance as the weight of 
 - `hasVoted`: Mapping to track whether an address has voted on a specific proposal.
 - `delegatees`: Mapping to track the delegatees of the respective delegators.
 - `delegators`: Mapping to track the delegators of the respective delegatees.
-
-### Events
-
-- `ProposalCreated(uint256 indexed proposalId, string name, string description, uint256 endTime)`: Emitted when a new
-  proposal is created.
-- TODO: add more events
 
 ## Functions
 
@@ -79,7 +119,9 @@ proposals and vote on them using their Ethereum wallet balance as the weight of 
 
 ### 5. `upVoteByDelegate(uint256 _proposalId)`
 
-- **Description:** Upvotes a proposal on behalf of a delegator.
+- **Description:** Upvotes a proposal on behalf of a delegator. Once the delegatee has voted on a proposal, the
+  delegator
+  cannot vote on the same proposal.
 - **Returns:** A boolean indicating whether the vote was successful.
 - **Validations:**
     - Proposal must exist.
@@ -90,7 +132,9 @@ proposals and vote on them using their Ethereum wallet balance as the weight of 
 
 ### 6. `downVoteByDelegate(uint256 _proposalId)`
 
-- **Description:** Downvotes a proposal on behalf of a delegator.
+- **Description:** Downvotes a proposal on behalf of a delegator. Once the delegatee has voted on a proposal, the
+  delegator
+  cannot vote on the same proposal.
 - **Returns:** A boolean indicating whether the vote was successful.
 - **Validations:**
     - Proposal must exist.
@@ -106,23 +150,3 @@ proposals and vote on them using their Ethereum wallet balance as the weight of 
 - **Validations:**
     - Proposal must exist.
     - The voting period must have ended.
-
-## Running Tests
-
-To ensure the smart contract functions correctly, you can run the provided tests using Truffle. Make sure you
-have [Truffle](https://www.trufflesuite.com/) installed.
-
-### Steps to Run Tests
-
-1. **Compile the Contracts:**
-   Before running the tests, ensure the smart contracts are compiled.
-
-   ```bash
-   truffle compile
-   ```
-2. **Run the Tests:**
-   Use the following command to run the tests:
-
-   ```bash
-   truffle test
-   ```

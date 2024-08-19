@@ -444,6 +444,30 @@ contract("Up voting by delegation", async (accounts) => {
     }
   })
 
+  it("should not upvote a proposal if the delegatee has already voted", async () => {
+    const delegator = accounts[3]
+    const delegatee = accounts[4]
+
+    const endTime = dateUtil.getNSecondsFromNowUnixTimestamp(1000)
+    const transaction = await votingMasterInstance.createProposal(
+      "Core contracts migration to polygon chain.",
+      "Should we move our core contracts to polygon chain?",
+      endTime,
+      { from: delegator },
+    )
+    const proposalId = transaction.logs[0].args.proposalId
+
+    await votingMasterInstance.upVote(proposalId, { from: delegatee })
+    try {
+      await votingMasterInstance.upVoteByDelegate(proposalId, {
+        from: delegatee,
+      })
+      assert.fail("The function should have thrown an error")
+    } catch (error) {
+      assert(error.message.includes("You have already voted on the proposal!"))
+    }
+  })
+
   it("should not upvote a proposal if the user has <1 ETH balance", async () => {
     const delegator = accounts[5]
     const delegatee = accounts[6]
@@ -596,6 +620,30 @@ contract("Down voting by delegation", async (accounts) => {
           "The delegator has already voted on the proposal!",
         ),
       )
+    }
+  })
+
+  it("should not downvote a proposal if the delegatee has already voted", async () => {
+    const delegator = accounts[3]
+    const delegatee = accounts[4]
+
+    const endTime = dateUtil.getNSecondsFromNowUnixTimestamp(1000)
+    const transaction = await votingMasterInstance.createProposal(
+      "Core contracts migration to polygon chain.",
+      "Should we move our core contracts to polygon chain?",
+      endTime,
+      { from: delegator },
+    )
+    const proposalId = transaction.logs[0].args.proposalId
+
+    await votingMasterInstance.downVote(proposalId, { from: delegatee })
+    try {
+      await votingMasterInstance.downVoteByDelegate(proposalId, {
+        from: delegatee,
+      })
+      assert.fail("The function should have thrown an error")
+    } catch (error) {
+      assert(error.message.includes("You have already voted on the proposal!"))
     }
   })
 

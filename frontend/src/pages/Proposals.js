@@ -82,7 +82,7 @@ function Proposals(props) {
       <div className="m-[30px]">
         <div className="flex justify-between p-5">
           <h1 className="text-4xl font-bold">Proposals</h1>
-          <div className="">
+          <div>
             <select
               id="filter"
               value={filter}

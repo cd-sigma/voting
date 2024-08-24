@@ -1,4 +1,3 @@
-import { ethers } from "ethers"
 import React, { useEffect, useState } from "react"
 
 import { getWeb3 } from "../util/web3.util"
@@ -8,8 +7,6 @@ import {
 } from "../util/date.util"
 
 import globalConst from "../global.const.json"
-import votingMasterAbi from "../abi/voting.master.abi.json"
-
 import GasQuote from "../components/GasQuote"
 
 function GasTracker(props) {
@@ -21,31 +18,18 @@ function GasTracker(props) {
 
   useEffect(() => {
     const web3 = getWeb3()
-    const contract = new ethers.Contract(
-      globalConst.VOTING_MASTER_ADDRESS,
-      votingMasterAbi,
-      web3,
-    )
 
     const fetchData = async () => {
-      const [gasPrice, votingGas, proposalCreationGas, voteDelegatingGas] =
-        await Promise.all([
-          web3.getGasPrice(),
-          contract.estimateGas["upVote"](0),
-          contract.estimateGas["createProposal"](
-            "testing",
-            "ciphernova is testing",
-            1855292721, // 2038-11-01 00:00:00
-          ),
-          contract.estimateGas["delegateVote"](
-            "0x1268AD189526AC0b386faF06eFfC46779c340eE6", //some random address
-          ),
-        ])
+      const gasPrice = await web3.getGasPrice()
 
       setGasPrice(gasPrice)
-      setVotingGas(votingGas * gasPrice)
-      setVoteDelegatingGas(voteDelegatingGas * gasPrice)
-      setProposalCreationGas(proposalCreationGas * gasPrice)
+      setVotingGas(globalConst.VOTING_GAS_UNITS_CONSUMED * gasPrice)
+      setVoteDelegatingGas(
+        globalConst.VOTE_DELEGATION_GAS_UNITS_CONSUMED * gasPrice,
+      )
+      setProposalCreationGas(
+        globalConst.PROPOSAL_CREATION_GAS_UNITS_CONSUMED * gasPrice,
+      )
       setGasLastRefreshedAt(getCurrentUnixTimestampInMs())
     }
 
